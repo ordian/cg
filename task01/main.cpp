@@ -103,8 +103,8 @@ std::istream &operator>>(std::istream &input, polygon<T> &poly) {
   poly.bounds.clear();
   poly.points.reserve(n);
 
+  point<T> p;
   for (size_t i = 0; i != n; ++i) {
-    point<T> p;
     std::cin >> p;
     poly.bounds.update(p);
     poly.points.push_back(p);
