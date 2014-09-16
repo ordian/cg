@@ -1,4 +1,16 @@
 cg
 ==
 
-computational geometry course at spbau
+spbau computational geometry course home assignments
+
+build
+-----
+```bash
+./build.sh XX
+```
+
+run
+---
+```bash
+./run.sh XX
+```

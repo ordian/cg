@@ -38,7 +38,7 @@ struct box {
       minX = std::min(minX, p.x);
       minY = std::min(minY, p.y);
       maxX = std::max(maxX, p.x);
-      maxY = std::max(maxX, p.y);
+      maxY = std::max(maxY, p.y);
     }
   }
 
@@ -127,8 +127,7 @@ int main() {
   point<int> p;
   for (size_t i = 0; i != m; ++i) {
     std::cin >> p;
-    bool yes = poly.contains(p);
-    std::cout << (yes ? "YES" : "NO") << std::endl;
+    std::cout << (poly.contains(p) ? "yes" : "no") << std::endl;
   }
 
   return 0;
