@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include <cstdint>
 
 template<typename T>
 struct point {
@@ -119,12 +119,12 @@ std::istream &operator>>(std::istream &input, polygon<T> &poly) {
 
 int main() {
   std::ios::sync_with_stdio(false);
-  polygon<int> poly;
+  polygon<std::int64_t> poly;
   std::cin >> poly;
 
   size_t m = 0;
   std::cin >> m;
-  point<int> p;
+  point<std::int64_t> p;
   for (size_t i = 0; i != m; ++i) {
     std::cin >> p;
     std::cout << (poly.contains(p) ? "yes" : "no") << std::endl;
