@@ -93,7 +93,7 @@ private:
 enum SegmentRayIntersection {
   YES,
   NO,
-  EDGE
+  BOUNDARY
 };
 
 bool withinStrip(Int l, Int h, Point const &r) {
@@ -111,12 +111,12 @@ segmentHRayIntersection(Point a, Point b, Point const &r) {
     switch (orientation(a, b, r)) {
       case LEFT:      return YES;
       case RIGHT:     return NO;
-      case COLLINEAR: return EDGE;
+      case COLLINEAR: return BOUNDARY;
     }
   } else if (a.y == r.y && b.y == r.y) {
     return
       r.x < std::min(a.x, b.x) ? YES :
-      r.x > std::max(a.x, b.x) ?  NO : EDGE;
+      r.x > std::max(a.x, b.x) ?  NO : BOUNDARY;
   }
   return NO;
 }
@@ -132,7 +132,7 @@ bool Polygon::contains(Point const &p) const {
       case NO:
         j = i++;
         continue;
-      case EDGE:
+      case BOUNDARY:
         return true;
       case YES:
         if (b.y != p.y) {
