@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstdint>
+#include <fstream>
 
 typedef std::int32_t Int;
 typedef std::int64_t Long;
@@ -125,10 +126,10 @@ bool Polygon::contains(Point const &p) const {
   if (!bounds.contains(p))
     return false;
 
-  bool c = false;
+  bool c = false, skip = false;
   for (size_t i = 0, size = points.size(), j = size - 1; i != size; ) {
     Point const &a = points[j], &b = points[i];
-    switch (segmentHRayIntersection(a, b, p)) {
+    switch (segmentHRayIntersection(skip ? a : points[i - 1], b, p)) {
       case NO:
         j = i++;
         continue;
@@ -140,8 +141,10 @@ bool Polygon::contains(Point const &p) const {
             c = !c;
           }
           j = i++;
+          skip = false;
         } else {
           ++i;
+          skip = true;
         }
     }
   }
@@ -173,13 +176,14 @@ std::istream &operator>>(std::istream &input, Polygon &poly) {
 int main() {
   std::ios::sync_with_stdio(false);
   Polygon poly;
-  std::cin >> poly;
+  std::fstream input("/home/ordian/ClionProjects/cg/test", std::ios_base::in);
+  input >> poly;
 
   size_t m = 0;
-  std::cin >> m;
+  input >> m;
   Point p;
   for (size_t i = 0; i != m; ++i) {
-    std::cin >> p;
+    input >> p;
     std::cout << (poly.contains(p) ? "yes" : "no") << std::endl;
   }
 
