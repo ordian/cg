@@ -63,13 +63,13 @@ enum Orientation {
 };
 
 Long det(Long a, Long b, Long c, Long d) {
-  return a * c - b * d;
+  return a * d - b * c;
 }
 
 Orientation orientation(Point const &p, Point const &q, Point const &r) {
   Long x = det(
-    q.x - p.x, r.x - p.x,
-    q.y - p.y, r.y - p.y);
+    (q.x - p.x), (r.x - p.x),
+    (q.y - p.y), (r.y - p.y));
   return x < 0 ? LEFT : x > 0 ? RIGHT : COLLINEAR;
 }
 
