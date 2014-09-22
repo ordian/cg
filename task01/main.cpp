@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 #include <cstdint>
-#include <fstream>
 
 typedef std::int32_t Int;
 typedef std::int64_t Long;
