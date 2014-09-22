@@ -176,13 +176,14 @@ std::istream &operator>>(std::istream &input, Polygon &poly) {
 int main() {
   std::ios::sync_with_stdio(false);
   Polygon poly;
-  std::cin >> poly;
+  std::fstream input("/home/ordian/ClionProjects/cg/test", std::ios_base::in);
+  input >> poly;
 
   size_t m = 0;
-  std::cin >> m;
+  input >> m;
   Point p;
   for (size_t i = 0; i != m; ++i) {
-    std::cin >> p;
+    input >> p;
     std::cout << (poly.contains(p) ? "yes" : "no") << std::endl;
   }
 
