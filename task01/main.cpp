@@ -14,11 +14,11 @@ struct Point {
   Point(Int a, Int b) : x(a), y(b) {}
 
   friend std::istream &operator>>(std::istream &input, Point &p) {
-    input.ignore(1, '(');
+    input.ignore(256, '(');
     input >> p.x;
-    input.ignore(1, ',');
+    input.ignore(256, ',');
     input >> p.y;
-    input.ignore(1, ')');
+    input.ignore(256, ')');
     return input;
   }
 
@@ -66,11 +66,11 @@ Long det(Long a, Long b, Long c, Long d) {
   return a * c - b * d;
 }
 
-Orientation orientation(Point const &u, Point const &v, Point const &w) {
+Orientation orientation(Point const &p, Point const &q, Point const &r) {
   Long x = det(
-    (Long) v.x - u.x, (Long) w.x - u.x,
-    (Long) w.y - u.y, (Long) v.y - u.y);
-  return x < 0 ? RIGHT : x > 0 ? LEFT : COLLINEAR;
+    q.x - p.x, r.x - p.x,
+    q.y - p.y, r.y - p.y);
+  return x < 0 ? LEFT : x > 0 ? RIGHT : COLLINEAR;
 }
 
 struct Polygon {
@@ -129,7 +129,7 @@ bool Polygon::contains(Point const &p) const {
   bool c = false, skip = false;
   for (size_t i = 0, size = points.size(), j = size - 1; i != size; ) {
     Point const &a = points[j], &b = points[i];
-    switch (segmentHRayIntersection(skip ? a : points[i - 1], b, p)) {
+    switch (segmentHRayIntersection(skip ? points[i - 1] : a, b, p)) {
       case NO:
         j = i++;
         continue;
@@ -157,17 +157,12 @@ std::istream &operator>>(std::istream &input, Polygon &poly) {
   input >> n;
   poly.points.clear();
   poly.bounds.clear();
-  poly.points.reserve(n);
+  poly.points.resize(n);
 
-  Point p;
   for (size_t i = 0; i != n; ++i) {
-    input >> p;
-    poly.bounds.update(p);
-    poly.points.push_back(p);
+    input >> poly.points[i];
+    poly.bounds.update(poly.points[i]);
   }
-
-  auto lowest = std::min_element(poly.points.begin(), poly.points.end());
-  std::rotate(poly.points.begin(), lowest, poly.points.end());
 
   return input;
 }
