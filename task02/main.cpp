@@ -28,8 +28,11 @@ triangulateMonotonePolygon(Polygon const &poly) {
   std::reverse(events.begin() + splitIndex, events.end());
   std::inplace_merge(
       events.begin(), events.begin() + splitIndex, events.end(), 
-      [&points](Int a, Int b) { return points[a].x < points[b].x; });
-  auto isUpper = [splitIndex](Int a) { return a > splitIndex; };
+      [&points](Int a, Int b) { 
+        return (points[a].x < points[b].x) || 
+        (points[a].x == points[b].x && points[a].y < points[b].y); 
+      });
+  auto isUpper = [splitIndex](Int a) { return a >= splitIndex; };
 
   std::deque<Int> stack;
   stack.push_back(events[0]);
@@ -54,7 +57,7 @@ triangulateMonotonePolygon(Polygon const &poly) {
         Int a = stack.back();
         Int b = stack[stack.size() - 2];
         auto side = orientation(points[current], points[b], points[a]);
-        if (side == COLLINEAR || (side == RIGHT) != isUpper(a)) 
+        if (side == COLLINEAR || (side == LEFT) != isUpper(a)) 
           break;
         stack.pop_back();
         result.push_back(buildTriangle(current, a, b));
