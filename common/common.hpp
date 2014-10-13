@@ -2,9 +2,14 @@
 #include <vector>
 #include <algorithm>
 #include <cstdint>
+#include <limits>
 
 typedef std::int32_t Int;
 typedef std::int64_t Long;
+
+std::istream &skip(std::istream &input, char until) {
+  return input.ignore(std::numeric_limits<std::streamsize>::max(), until);
+}
 
 struct Point {
   Int x, y;
@@ -13,12 +18,9 @@ struct Point {
   Point(Int a, Int b) : x(a), y(b) {}
 
   friend std::istream &operator>>(std::istream &input, Point &p) {
-    input.ignore(256, '(');
-    input >> p.x;
-    input.ignore(256, ',');
-    input >> p.y;
-    input.ignore(256, ')');
-    return input;
+    skip(input, '(') >> p.x;
+    skip(input, ',') >> p.y;
+    return skip(input, ')');
   }
 
   bool operator<(Point &p) {
