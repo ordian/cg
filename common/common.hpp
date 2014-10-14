@@ -105,3 +105,26 @@ Orientation orientation(Point const &p, Point const &q, Point const &r) {
   return x < 0 ? LEFT : x > 0 ? RIGHT : COLLINEAR;
 }
 
+enum class PointSegmentPosition {
+  LEFT,
+  RIGHT,
+  BEHIND,
+  BETWEEN,
+  BEYOND
+};
+
+PointSegmentPosition classify(Point const &p, Point const &q, Point const &r) {
+  switch (orientation(p, q, r)) {
+    case LEFT: return PointSegmentPosition::LEFT;
+    case RIGHT: return PointSegmentPosition::RIGHT;
+    default: {
+      Long ax = q.x - p.x, ay = q.y - p.y;
+      Long bx = r.x - p.x, by = r.y - p.y;
+      if (ax * bx < 0 || ay * by < 0)
+	return PointSegmentPosition::BEHIND;
+      if ((ax * ax + ay * ay) < (bx * bx + by * by))
+	return PointSegmentPosition::BEYOND;
+      return PointSegmentPosition::BETWEEN;
+    }
+  }
+}

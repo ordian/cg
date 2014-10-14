@@ -3,7 +3,7 @@ cg
 
 spbau computational geometry course home assignments
 
-let XX be in set { "01", "02" },
+let XX be in set { "01", "02", "03" },
  then you can
 
 build
