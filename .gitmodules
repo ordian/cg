@@ -1,3 +1,3 @@
 [submodule "kirkpatrick"]
 	path = kirkpatrick
-	url = /home/ordian/workspace/kirkpatrick/
+	url = git://github.com/ordian/kirkpatrick-refinement.git
